@@ -5,6 +5,7 @@ import useForm from '../../lib/hooks/useForm';
 import Form from '../styles/Form';
 import DisplayError from '../ErrorMessage';
 import { ALL_PRODUCTS_QUERY } from './Products';
+import router from 'next/router';
 
 const CREATE_PRODUCT_MUTATION = gql`
   mutation CREATE_PRODUCT_MUTATION(
@@ -52,6 +53,7 @@ export default function CreateProduct() {
     event.preventDefault();
     const response = await createProduct();
     clearForm();
+
     Router.push({
       pathname: `/product/${response.createProduct.id}`,
     });
