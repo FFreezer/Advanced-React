@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { KeystoneContext } from '@keystone-next/types';
 import { CartItemCreateInput } from '../.keystone/schema-types';
 import { CartItem } from '../schemas/CartItem';
