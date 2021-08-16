@@ -5,7 +5,7 @@ import CartStyles from '../styles/CartStyles';
 import Supreme from '../styles/Supreme';
 import formatMoney from '../../lib/formatMoney';
 import calcTotalPrice from '../../lib/calcTotalPrice';
-import { useCart } from '../../lib/contexts/cartContext';
+import useCart from '../../lib/hooks/useCart';
 import CloseButton from '../styles/CloseButton'
 const CartItemStyled = styled.li`
   padding: 1rem 0;

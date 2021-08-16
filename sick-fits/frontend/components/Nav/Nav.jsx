@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { useCart } from '../../lib/contexts/cartContext';
+import useCart  from '../../lib/hooks/useCart';
 import useUser from '../../lib/hooks/useUser';
 import NavStyled from '../styles/NavStyles';
 import SignOut from '../User/SignOut';
@@ -17,7 +17,6 @@ export default function Nav() {
           <NextLink href="/sell">Sell</NextLink>
           <NextLink href="/orders">Orders</NextLink>
           <NextLink href="/account">Account</NextLink>
-          <NextLink href="/cart">Cart</NextLink>
           <button type="button" onClick={toggleCart}>Cart</button>
           <SignOut />
         </>

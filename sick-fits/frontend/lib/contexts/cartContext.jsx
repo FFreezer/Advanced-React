@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { arrayOf, node, oneOfType } from 'prop-types';
 
-const LocalStateContext = createContext();
+export const LocalStateContext = createContext();
 
 const LocalStateProvider = LocalStateContext.Provider;
 
