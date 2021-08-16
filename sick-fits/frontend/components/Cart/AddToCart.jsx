@@ -23,9 +23,6 @@ const AddToCart = ({ id }) => {
       refetchQueries: [
         { query : CURRENT_USER_QUERY }
       ],
-      onCompleted: () => {
-          openCart()
-      }
     });
 
 
