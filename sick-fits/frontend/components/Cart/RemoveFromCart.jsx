@@ -23,11 +23,16 @@ const REMOVE_FROM_CART_MUTATION = gql`
   }
 `;
 
+function update(cache, payload) {
+  cache.evict(cache.identify(payload.data.deleteCartItem));
+}
+
 const RemoveFromCart = ({ id }) => {
   const [removeFromCart, { loading, error, data }] = useMutation(
     REMOVE_FROM_CART_MUTATION,
     {
       variables: { id },
+      update,
     }
   );
 
