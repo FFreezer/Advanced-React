@@ -2,7 +2,6 @@ import { string } from 'prop-types';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
-import { CURRENT_USER_QUERY } from '../../lib/hooks/useUser';
 
 const BigButton = styled.button`
   font-size: 3rem;
@@ -28,13 +27,10 @@ function update(cache, payload) {
 }
 
 const RemoveFromCart = ({ id }) => {
-  const [removeFromCart, { loading, error, data }] = useMutation(
-    REMOVE_FROM_CART_MUTATION,
-    {
-      variables: { id },
-      update,
-    }
-  );
+  const [removeFromCart, { loading }] = useMutation(REMOVE_FROM_CART_MUTATION, {
+    variables: { id },
+    update,
+  });
 
   return (
     <BigButton
