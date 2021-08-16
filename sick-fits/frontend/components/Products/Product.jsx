@@ -23,7 +23,7 @@ export default function Product({ product }) {
       <div className="buttonList">
         <NextLink
           href={{
-            pathname: 'update',
+            pathname: '/update',
             query: {
               id: product.id,
             },
