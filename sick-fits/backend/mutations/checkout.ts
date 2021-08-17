@@ -41,19 +41,20 @@ const checkout = async (
   // 1 => Make sure the user is signed in
   const userId = context.session.itemId;
   if(!userId) throw new Error('You must be signed in to create a new order');
-  console.log({ userId });
-  // Query the current user
+
+  // 1.5 => Query the current user
   const user = await context.lists.User.findOne({ 
     where: { id: userId },
     resolveFields
   });
+
   // 2 => Calculate the total price
   const cartItems: Array<CartItem> = user.cart.filter((cartItem) => cartItem.product);
   console.dir(cartItems, { depth : null })
   const amount = cartItems.reduce((tally, cartItem) => {
     return tally + cartItem?.quantity * cartItem?.product?.price 
   }, 0);
-  console.log({ amount });
+
   // 3 => Create the charge with the stripe library
   const charge = await stripeConfig.paymentIntents.create({
     amount,
@@ -64,10 +65,36 @@ const checkout = async (
     console.error(error);
     throw new Error(error);
   });
-  console.log({ charge })
+
   // 4 => Convert the cart items to order items
+  const orderItems = cartItems.map((cartItem) => ({
+    name: cartItem.product.name,
+    description: cartItem.product.description,
+    price: cartItem.product.price,
+    quantity: cartItem.quantity,
+    photo: { connect : { id : cartItem.product.photo.id } },
+  }));
+
   // 5 => Create the order and return it
-  return;
+  const order = await context.lists.Order.createOne({
+    data: {
+      total: charge.amount,
+      charge: charge.id,
+      items: { 
+        create: orderItems
+      },
+      user: { connect : { id: userId } },
+    }
+  });
+
+  console.log({"___ORDER___": order, "___CHARGE___" : charge});
+
+  // 6 => Clean up any old cart items
+  const cartItemIds = cartItems.map(cartItem => cartItem.id);
+  await context.lists.CartItem.deleteMany({ ids : cartItemIds });
+  
+  // 7 => Return the order
+  return order;
 }
 
 export default checkout;
