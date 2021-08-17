@@ -7,8 +7,7 @@ import SignOut from '../User/SignOut';
 
 export default function Nav() {
   const user = useUser();
-  const { toggleCart } = useCart();
-  console.log({ user });
+  const { toggleCart } = useCart(); 
 
   return (
     <NavStyled>
@@ -21,7 +20,7 @@ export default function Nav() {
           <button type="button" onClick={toggleCart}>
             Cart
             <CartCount count={user.cart.reduce(
-              (tally, cartItem) => tally + cartItem.quantity, 0
+              (tally, cartItem) => tally + (cartItem.product ? cartItem.quantity : 0), 0 
             )}/>
             </button>
           <SignOut />

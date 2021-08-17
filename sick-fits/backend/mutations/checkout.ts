@@ -84,13 +84,13 @@ const checkout = async (
         create: orderItems
       },
       user: { connect : { id: userId } },
-    }
+    }, 
   });
 
-  console.log({"___ORDER___": order, "___CHARGE___" : charge});
+  // console.log({"___ORDER___": order, "___CHARGE___" : charge});
 
   // 6 => Clean up any old cart items
-  const cartItemIds = cartItems.map(cartItem => cartItem.id);
+  const cartItemIds = user.cart.map(cartItem => cartItem.id);
   await context.lists.CartItem.deleteMany({ ids : cartItemIds });
   
   // 7 => Return the order
