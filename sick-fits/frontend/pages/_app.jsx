@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-// TODO swap with our own
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import '../components/styles/nprogress.css';
