@@ -17,6 +17,7 @@ import { Role } from './schemas/Role';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
+import { permissionsList } from './schemas/fields';
 
 const databaseURL =
   process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
@@ -25,6 +26,8 @@ const sessionConfig = {
   maxAge: 60 * 60 * 24 * 360, // How long should they stay signed in ?
   secret: process.env.COOKIE_SECRET,
 };
+
+const graphql = String.raw;
 
 const { withAuth } = createAuth({
   listKey: 'User',
@@ -73,7 +76,15 @@ export default withAuth(
       isAccessAllowed: ({ session }) => !!session?.data,
     },
     session: withItemData(statelessSessions(sessionConfig), {
-      User: 'id',
+      // User: 'id name email role {}',
+      User: `
+        id
+        name
+        email
+        role {
+          ${permissionsList.join(" ")}
+        }
+      `,
     }),
   })
 );
