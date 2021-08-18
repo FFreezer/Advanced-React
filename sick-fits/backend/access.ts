@@ -21,3 +21,32 @@ export const permissions = {
     }
   }
 }
+
+// Rules based functions
+// Rules can return a boolean or a filter that limits which products they can crud
+
+// interface Rules {
+//   [key: string]: (listAccessArguments: ListAccessArgs) => any;
+// }
+
+const rules = { 
+  canManageProducts: ({ session }: ListAccessArgs)  => permissions.canManageProducts(session) 
+    ? true 
+    : { user : { id : session.itemId } },
+
+  canReadProducts: ({ session }) => permissions.canManageProducts(session) 
+    ? true 
+    : { status : 'AVAILABLE'},
+
+  canManageCart : ({ session }) => {
+
+  },
+  canReadyProducts: () => {},
+  canManageOrders: () => {},
+  canManageRoles: () => {},
+  canManageUsers: () => {},
+  canSeeOtherUsers: () => {}
+};
+
+export default rules;
+
